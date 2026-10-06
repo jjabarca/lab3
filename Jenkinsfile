@@ -39,7 +39,7 @@ pipeline {
                  sh 'pnpm build'
             }
         }
-        /*
+
         stage("CD - Construccion imagen y upload"){
             steps{
                 container('buildkit'){
@@ -65,7 +65,7 @@ pipeline {
                 }
             }
         }
-        
+        /*
         stage('CD - Despliegue continuo'){
             when {
                 anyOf {
