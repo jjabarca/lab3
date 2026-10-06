@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Pod
+spec:
+    containers:
+      - name: herramientas
+        image: alpine:3.23
+        command:
+          - cat
+        tty: true
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "1000m"
+            memory: "512Mi"
+      - name: node-tool
+        image: node:24
+        command:
+          - cat
+        tty: true
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "1000m"
+            memory: "512Mi"
+      - name: kubectl-tool
+        image: alpine/k8s:1.36.1
+        command:
+          - cat
+        tty: true
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "1000m"
+            memory: "512Mi"
+      - name: buildkit
+        image: moby/buildkit:rootless
+        command:
+          - cat
+        tty: true
+        volumeMounts:
+          - name: regcred-dh
+            mountPath: /docker-config/dockerhub
+            readOnly: true
+          - name: regcred-gh
+            mountPath: /docker-config/github
+            readOnly: true
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "256Mi"
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
+    volumes:
+      - name: regcred-dh
+        secret:
+          secretName: regcred-dh
+          items:
+            - key: .dockerconfigjson
+              path: config.json
+      - name: regcred-gh
+        secret:
+          secretName: regcred-gh
+          items:
+            - key: .dockerconfigjson
+              path: config.json
