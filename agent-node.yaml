@@ -31,6 +31,10 @@ spec:
         command:
           - cat
         tty: true
+        volumeMounts:
+          - name: regcred-dh
+            mountPath: /docker-config/dockerhub
+            readOnly: true
         resources:
           requests:
             cpu: "100m"

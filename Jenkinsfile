@@ -7,9 +7,11 @@ pipeline {
         }
     }
     environment{
-        DH_REPO = 'jjabarca/repo-lab3'
+        DH_REPO = 'jjabarca/tarea-final'
         GH_REPO = 'ghcr.io/jjabarca/repo-lab3'
         K8S_NAMESPACE = 'ns-juan-abarca'
+        APP_VERSION = '3.0.0'
+        APP_TAG = 'juan-abarca'
     }
     stages{
         stage("CI - Activacion de pnpm"){
@@ -51,7 +53,7 @@ pipeline {
                         --frontend dockerfile.v0 \
                         --local context=. \
                         --local dockerfile=. \
-                        --output type=image,\\\"name=${DH_REPO}:latest,${DH_REPO}:${BUILD_NUMBER}\\\",push=true
+                        --output type=image,\\\"name=${DH_REPO}:${APP_TAG},${DH_REPO}:${APP_VERSION}\\\",push=true
                     
                     export DOCKER_CONFIG=/docker-config/github
                         test -s ${DOCKER_CONFIG}/config.json
@@ -65,7 +67,6 @@ pipeline {
                 }
             }
         }
-        /*
         stage('CD - Despliegue continuo'){
             when {
                 anyOf {
@@ -77,12 +78,12 @@ pipeline {
                 container('kubectl-tool'){
                     withKubeConfig([credentialsId: 'kubernetes-config']){
                         sh '''
-                           kubectl -n ${K8S_NAMESPACE} set image deployment/curso-contenedores curso-contenedores=${GH_REPO}:${BUILD_NUMBER}
-                           kubectl -n ${K8S_NAMESPACE} rollout status deployment/curso-contenedores
+                           kubectl -n ${K8S_NAMESPACE} set image deployment/app-juan-abarca app-juan-abarca=${DH_REPO}:${APP_TAG}
+                           kubectl -n ${K8S_NAMESPACE} rollout status deployment/app-juan-abarca --timeout=180s
                         '''
                     }
                 }
             }
-        }*/
+        }
     }
 }
