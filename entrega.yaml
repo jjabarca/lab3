@@ -39,8 +39,8 @@ spec:
       imagePullSecrets:
         - name: regcred-dh
       containers:
-        - name: app-juan-abarca
-          image: jjabarca/tarea-final:juan-abarca
+        - name: app
+          image: jjabarca/repo-lab3:juan-abarca
           imagePullPolicy: Always
           ports:
             - name: http
