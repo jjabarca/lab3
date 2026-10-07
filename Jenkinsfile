@@ -76,7 +76,7 @@ pipeline {
             }
             steps{
                 container('kubectl-tool'){
-                    withKubeConfig([credentialsId: 'kubernetes-config']){
+                    withKubeConfig([credentialsId: 'kubernetes-config-juan-abarca']){
                         sh '''
                            kubectl -n ${K8S_NAMESPACE} set image deployment/app-juan-abarca app-juan-abarca=${DH_REPO}:${APP_TAG}
                            kubectl -n ${K8S_NAMESPACE} rollout status deployment/app-juan-abarca --timeout=180s
