@@ -52,8 +52,6 @@ pipeline {
                         --local context=. \
                         --local dockerfile=. \
                         --output type=image,\\\"name=${DH_REPO}:latest,${DH_REPO}:${BUILD_NUMBER}\\\",push=true
-
-                        
                     '''
                 }
             }
