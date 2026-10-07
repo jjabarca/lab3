@@ -14,35 +14,21 @@ pipeline {
         APP_TAG = 'juan-abarca'
     }
     stages{
-        stage("CI - Activacion de pnpm"){
+        stage('install'){
             steps{
                 sh 'corepack enable'
                 sh 'node --version'
                 sh 'pnpm --version'
-            }
-        }
-        stage("CI - Instalacion de dependencias"){
-            steps{
                 sh 'pnpm install --frozen-lockfile'
             }
         }
-        stage("CI - Revision de Linter"){
+        stage('test'){
             steps{
                 sh 'pnpm lint'
+                sh 'pnpm test'
             }
         }
-        stage("CI - Ejecucion de Test"){
-            steps{
-                 sh 'pnpm test'
-            }
-        }
-        stage("CI - Construccion de aplicacion"){
-            steps{
-                 sh 'pnpm build'
-            }
-        }
-
-        stage("CD - Construccion imagen y upload"){
+        stage('build'){
             steps{
                 container('buildkit'){
                     sh '''
@@ -53,21 +39,41 @@ pipeline {
                         --frontend dockerfile.v0 \
                         --local context=. \
                         --local dockerfile=. \
-                        --output type=image,\\\"name=${DH_REPO}:${APP_TAG},${DH_REPO}:${APP_VERSION}\\\",push=true
-                    
-                    export DOCKER_CONFIG=/docker-config/github
+                        --output type=image,name=${DH_REPO}:${APP_TAG},push=false \
+                        --export-cache type=local,dest=/tmp/buildkit-cache,mode=max
+                    '''
+                }
+            }
+        }
+
+        stage('push'){
+            steps{
+                container('buildkit'){
+                    sh '''
+                        export DOCKER_CONFIG=/docker-config/dockerhub
                         test -s ${DOCKER_CONFIG}/config.json
 
                         buildctl-daemonless.sh build \
                         --frontend dockerfile.v0 \
                         --local context=. \
                         --local dockerfile=. \
+                        --import-cache type=local,src=/tmp/buildkit-cache \
+                        --output type=image,\\\"name=${DH_REPO}:${APP_TAG},${DH_REPO}:${APP_VERSION}\\\",push=true
+                    
+                        export DOCKER_CONFIG=/docker-config/github
+                        test -s ${DOCKER_CONFIG}/config.json
+
+                        buildctl-daemonless.sh build \
+                        --frontend dockerfile.v0 \
+                        --local context=. \
+                        --local dockerfile=. \
+                        --import-cache type=local,src=/tmp/buildkit-cache \
                         --output type=image,\\\"name=${GH_REPO}:latest,${GH_REPO}:${BUILD_NUMBER}\\\",push=true
                     '''
                 }
             }
         }
-        stage('CD - Despliegue continuo'){
+        stage('deploy'){
             when {
                 anyOf {
                     branch 'main'
@@ -78,7 +84,7 @@ pipeline {
                 container('kubectl-tool'){
                     withKubeConfig([credentialsId: 'kubernetes-config-juan-abarca']){
                         sh '''
-                           kubectl -n ${K8S_NAMESPACE} set image deployment/app-juan-abarca app-juan-abarca=${DH_REPO}:${APP_TAG}
+                           kubectl -n ${K8S_NAMESPACE} set image deployment/app-juan-abarca app=${DH_REPO}:${APP_TAG}
                            kubectl -n ${K8S_NAMESPACE} rollout status deployment/app-juan-abarca --timeout=180s
                         '''
                     }
