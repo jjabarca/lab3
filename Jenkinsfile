@@ -7,7 +7,7 @@ pipeline {
         }
     }
     environment{
-        DH_REPO = 'jjabarca/tarea-final'
+        DH_REPO = 'jjabarca/repo-lab3'
         GH_REPO = 'ghcr.io/jjabarca/repo-lab3'
         K8S_NAMESPACE = 'ns-juan-abarca'
         APP_VERSION = '3.0.0'
