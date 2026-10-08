@@ -3,7 +3,7 @@ pipeline {
     agent {
         kubernetes {
             defaultContainer 'node-tool'
-            yamlFile 'agent-node.yaml'
+            yamlFile 'agent.yaml'
         }
     }
     environment{

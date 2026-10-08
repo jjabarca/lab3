@@ -19,7 +19,7 @@ metadata:
 type: Opaque
 stringData:
   # Valor de demostración para la entrega.
-  API_KEY: "demo-api-key-juan-abarca"
+  API_KEY: "api-key-juan-abarca"
 ---
 apiVersion: apps/v1
 kind: Deployment
