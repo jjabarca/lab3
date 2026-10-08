@@ -18,7 +18,7 @@ El ConfigMap `config-juan-abarca` proporciona `AMBIENTE` y el Secret `secret-jua
 
 ## Instrucciones generales
 
-1. Disponer de MicroK8s operativo y Jenkins con los plugins Kubernetes y Kubernetes CLI, conectado al cluster y al repositorio Git.
+1. Disponer de MicroK8s (u otro) operativo y Jenkins con los plugins Kubernetes y Kubernetes CLI, conectado al cluster y al repositorio Git.
 2. Preparar los Secrets `regcred-dh` y `regcred-gh` en el namespace de los agentes Jenkins, y `regcred-dh` en `ns-juan-abarca` para la descarga de la imagen.
 3. Registrar el kubeconfig en Jenkins con el ID de credencial `kubernetes-config-juan-abarca`.
 4. Publicar la imagen inicial y aplicar `entrega.yaml` para crear los recursos de la aplicación.
@@ -27,10 +27,8 @@ El ConfigMap `config-juan-abarca` proporciona `AMBIENTE` y el Secret `secret-jua
 
 El pipeline instala dependencias, ejecuta lint y pruebas unitarias, construye con BuildKit y publica en ambos registries. Docker Hub recibe los tags `juan-abarca` y `3.0.0`; GHCR recibe `latest` y el número de build de Jenkins.
 
-El despliegue inicial es manual. Como el pipeline reutiliza el tag `juan-abarca`, la renovación de los pods después de publicar una nueva imagen todavía requiere intervención manual.
+El despliegue inicial es manual. En las siguientes ejecuciones, el stage `deploy` asigna la imagen con tag `juan-abarca`, renueva automáticamente los pods mediante `rollout restart` y espera la actualización con `rollout status`. La política `imagePullPolicy: Always` permite que los nuevos contenedores utilicen la imagen publicada bajo ese mismo tag.
 
 ## Evidencias y entrega
 
-Adjuntar en `evidencias/` las capturas o salidas del cluster, nodos, pods, Deployment, Service, logs, variables de entorno, ConfigMap y Secret. Incluir también la prueba de port-forward y consulta a `/lab`, la publicación en ambos registries, el pipeline exitoso y su log completo.
-
-Comprimir el proyecto con sus archivos de configuración, código fuente, README y evidencias. Excluir dependencias instaladas, `.git`, kubeconfigs y credenciales de los registries.
+Las evidencias con las capturas y salidas del cluster, nodos, pods, Deployment, Service, logs, variables de entorno, ConfigMap y Secret, se incluyen en la carpeta `evidencias`. Incluye también la prueba de port-forward y consulta a `/lab`, la publicación en ambos registries, el pipeline exitoso y su log completo.
