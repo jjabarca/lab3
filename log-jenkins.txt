@@ -1,0 +1,829 @@
+Branch indexing
+ > git rev-parse --resolve-git-dir /var/jenkins_home/caches/git-dff417ff4b78eca3eed6b04a740433e8/.git # timeout=10
+Setting origin to https://github.com/jjabarca/lab3
+ > git config remote.origin.url https://github.com/jjabarca/lab3 # timeout=10
+Fetching origin...
+Fetching upstream changes from origin
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git config --get remote.origin.url # timeout=10
+ > git fetch --no-tags --force --progress -- origin +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/main
+Seen 1 remote branch
+Obtained Jenkinsfile.juan-abarca from 668cbc990b79646c7d56a758121fe56d751e292c
+[Pipeline] Start of Pipeline
+[Pipeline] readTrusted
+Obtained agent.yaml from 668cbc990b79646c7d56a758121fe56d751e292c
+[Pipeline] podTemplate
+[Pipeline] {
+[Pipeline] node
+Created Pod: kubernetes jenkins/jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7
+[PodInfo] jenkins/jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7
+	Container [buildkit] waiting [ContainerCreating] No message
+	Container [herramientas] waiting [ContainerCreating] No message
+	Container [jnlp] waiting [ContainerCreating] No message
+	Container [kubectl-tool] waiting [ContainerCreating] No message
+	Container [node-tool] waiting [ContainerCreating] No message
+	Pod [Pending][ContainersNotReady] containers with unready status: [herramientas node-tool kubectl-tool buildkit jnlp]
+[PodInfo] jenkins/jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7
+	Container [buildkit] waiting [ContainerCreating] No message
+	Container [herramientas] waiting [ContainerCreating] No message
+	Container [jnlp] waiting [ContainerCreating] No message
+	Container [kubectl-tool] waiting [ContainerCreating] No message
+	Container [node-tool] waiting [ContainerCreating] No message
+	Pod [Pending][ContainersNotReady] containers with unready status: [herramientas node-tool kubectl-tool buildkit jnlp]
+[PodInfo] jenkins/jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7
+	Container [buildkit] waiting [ContainerCreating] No message
+	Container [herramientas] waiting [ContainerCreating] No message
+	Container [jnlp] waiting [ContainerCreating] No message
+	Container [kubectl-tool] waiting [ContainerCreating] No message
+	Container [node-tool] waiting [ContainerCreating] No message
+	Pod [Pending][ContainersNotReady] containers with unready status: [herramientas node-tool kubectl-tool buildkit jnlp]
+Still waiting to schedule task
+‘jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7’ is offline
+[PodInfo] jenkins/jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7
+	Container [buildkit] waiting [ContainerCreating] No message
+	Container [herramientas] waiting [ContainerCreating] No message
+	Container [jnlp] waiting [ContainerCreating] No message
+	Container [kubectl-tool] waiting [ContainerCreating] No message
+	Container [node-tool] waiting [ContainerCreating] No message
+	Pod [Pending][ContainersNotReady] containers with unready status: [herramientas node-tool kubectl-tool buildkit jnlp]
+Agent jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7 is provisioned from template Jenkinsfile_juan-abarca_main_5-pwl8h-bghqn
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations:
+    kubernetes.jenkins.io/last-refresh: "1791420202099"
+    buildUrl: "http://jenkins.jenkins.svc.cluster.local:8080/job/Jenkinsfile.juan-abarca/job/main/5/"
+    runUrl: "job/Jenkinsfile.juan-abarca/job/main/5/"
+  labels:
+    jenkins/jenkins-jenkins-agent: "true"
+    jenkins/label-digest: "adbbb1f57eeb45f0e53b44f79cfdc6c0e5b79f21"
+    jenkins/label: "Jenkinsfile_juan-abarca_main_5-pwl8h"
+    kubernetes.jenkins.io/controller: "http___jenkins_jenkins_svc_cluster_local_8080x"
+  name: "jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7"
+  namespace: "jenkins"
+spec:
+  containers:
+  - command:
+    - "cat"
+    image: "alpine:3.23"
+    name: "herramientas"
+    resources:
+      limits:
+        cpu: "1000m"
+        memory: "512Mi"
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - command:
+    - "cat"
+    image: "node:24"
+    name: "node-tool"
+    resources:
+      limits:
+        cpu: "1000m"
+        memory: "512Mi"
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+    tty: true
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - command:
+    - "cat"
+    image: "alpine/k8s:1.36.1"
+    name: "kubectl-tool"
+    resources:
+      limits:
+        cpu: "1000m"
+        memory: "512Mi"
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+    tty: true
+    volumeMounts:
+    - mountPath: "/docker-config/dockerhub"
+      name: "regcred-dh"
+      readOnly: true
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - command:
+    - "cat"
+    env:
+    - name: "BUILDKITD_FLAGS"
+      value: "--oci-worker-no-process-sandbox"
+    image: "moby/buildkit:rootless"
+    name: "buildkit"
+    resources:
+      limits:
+        cpu: "1000m"
+        memory: "2Gi"
+      requests:
+        cpu: "1000m"
+        memory: "256Mi"
+    securityContext:
+      appArmorProfile:
+        type: "Unconfined"
+      runAsGroup: 1000
+      runAsUser: 1000
+      seccompProfile:
+        type: "Unconfined"
+    tty: true
+    volumeMounts:
+    - mountPath: "/docker-config/dockerhub"
+      name: "regcred-dh"
+      readOnly: true
+    - mountPath: "/docker-config/github"
+      name: "regcred-gh"
+      readOnly: true
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  - env:
+    - name: "JENKINS_SECRET"
+      value: "********"
+    - name: "JENKINS_TUNNEL"
+      value: "jenkins-agent.jenkins.svc.cluster.local:50000"
+    - name: "JENKINS_AGENT_NAME"
+      value: "jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7"
+    - name: "REMOTING_OPTS"
+      value: "-noReconnectAfter 1d"
+    - name: "JENKINS_NAME"
+      value: "jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7"
+    - name: "JENKINS_AGENT_WORKDIR"
+      value: "/home/jenkins/agent"
+    - name: "JENKINS_URL"
+      value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+    image: "jenkins/inbound-agent:3391.va_37fa_a_305d6d-1-jdk25"
+    name: "jnlp"
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+  nodeSelector:
+    kubernetes.io/os: "linux"
+  restartPolicy: "Never"
+  volumes:
+  - name: "regcred-gh"
+    secret:
+      items:
+      - key: ".dockerconfigjson"
+        path: "config.json"
+      secretName: "regcred-gh"
+  - name: "regcred-dh"
+    secret:
+      items:
+      - key: ".dockerconfigjson"
+        path: "config.json"
+      secretName: "regcred-dh"
+  - emptyDir:
+      medium: ""
+    name: "workspace-volume"
+
+Running on jenkinsfile-juan-abarca-main-5-pwl8h-bghqn-6xgx7 in /home/jenkins/agent/workspace/Jenkinsfile.juan-abarca_main
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository https://github.com/jjabarca/lab3
+ > git init /home/jenkins/agent/workspace/Jenkinsfile.juan-abarca_main # timeout=10
+Fetching upstream changes from https://github.com/jjabarca/lab3
+ > git --version # timeout=10
+ > git --version # 'git version 2.47.3'
+ > git fetch --no-tags --force --progress -- https://github.com/jjabarca/lab3 +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+Checking out Revision 668cbc990b79646c7d56a758121fe56d751e292c (main)
+ > git config remote.origin.url https://github.com/jjabarca/lab3 # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 668cbc990b79646c7d56a758121fe56d751e292c # timeout=10
+Commit message: "commit final para obtener evidencias"
+ > git rev-list --no-walk ff7a042ec2412c56aacc6136cc8068e71233b56b # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] container
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (install)
+[Pipeline] sh
++ corepack enable
+[Pipeline] sh
++ node --version
+v24.21.0
+[Pipeline] sh
++ pnpm --version
+! Corepack is about to download https://registry.npmjs.org/pnpm/-/pnpm-12.10.1.tgz
+Downloading the pnpm 12.10.1 binary for linux-x64...
+12.10.1
+[Pipeline] sh
++ pnpm install --frozen-lockfile
+? Verifying lockfile against supply-chain policies (670 entries)...
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: /home/jenkins/agent/.pnpm-store/v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 643, reused 0, downloaded 239, added 224
+Progress: resolved 643, reused 0, downloaded 448, added 444
+Progress: resolved 643, reused 0, downloaded 637, added 608
+✓ Lockfile passes supply-chain policies (670 entries in 5.3s)
+Lockfile is up to date, resolution step is skipped
+Packages: +643
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 643, reused 0, downloaded 643, added 643, done
+
+dependencies:
++ @nestjs/common 11.1.24
++ @nestjs/core 11.1.24
++ @nestjs/platform-express 11.1.24
++ reflect-metadata 0.2.2
++ rxjs 7.8.2
+
+devDependencies:
++ @eslint/eslintrc 3.3.5
++ @eslint/js 9.39.4
++ @nestjs/cli 11.0.21
++ @nestjs/schematics 11.1.0
++ @nestjs/testing 11.1.24
++ @types/express 5.0.6
++ @types/jest 30.0.0
++ @types/node 24.12.4
++ @types/supertest 7.2.0
++ eslint 9.39.4
++ eslint-config-prettier 10.1.8
++ eslint-plugin-prettier 5.5.6
++ globals 17.6.0
++ jest 30.4.2
++ prettier 3.8.3
++ source-map-support 0.5.21
++ supertest 7.2.2
++ ts-jest 29.4.11
++ ts-loader 9.6.0
++ ts-node 10.9.2
++ tsconfig-paths 4.2.0
++ typescript 5.9.3
++ typescript-eslint 8.60.0
+
+Done in 5.6s using pnpm v12.10.1
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (test)
+[Pipeline] sh
++ pnpm lint
+$ eslint "{src,apps,libs,test}/**/*.ts" --fix
+
+/home/jenkins/agent/workspace/Jenkinsfile.juan-abarca_main/src/main.ts
+  12:1  warning  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+✖ 1 problem (0 errors, 1 warning)
+
+[Pipeline] sh
++ pnpm test
+$ jest
+PASS src/env-config.spec.ts
+PASS src/app.controller.spec.ts
+
+Test Suites: 2 passed, 2 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        1.006 s
+Ran all test suites.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (build)
+[Pipeline] container
+[Pipeline] {
+[Pipeline] sh
++ export 'DOCKER_CONFIG=/docker-config/dockerhub'
++ test -s /docker-config/dockerhub/config.json
++ buildctl-daemonless.sh build --frontend dockerfile.v0 --local 'context=.' --local 'dockerfile=.' --output 'type=image,name=jjabarca/repo-lab3:juan-abarca,push=false' --export-cache 'type=local,dest=/tmp/buildkit-cache,mode=max'
+time="2026-10-08T00:45:16Z" level=warning msg="failed check for fsverity support" error="enable fsverity failed: inappropriate ioctl for device" path=/tmp/buildkit-cache
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 713B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24-alpine
+#2 ...
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24-alpine
+#2 DONE 1.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 94B done
+#4 DONE 0.0s
+
+#5 [base 1/3] FROM docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#5 resolve docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 0.0s done
+#5 ...
+
+#6 [internal] load build context
+#6 transferring context: 216.66kB 0.0s done
+#6 DONE 0.1s
+
+#5 [base 1/3] FROM docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#5 sha256:7ce7dcbafb7f750cf0c6be3c30e34372b06dd1182fa67f6ae30782c8150c5444 0B / 444B 0.2s
+#5 sha256:7ce7dcbafb7f750cf0c6be3c30e34372b06dd1182fa67f6ae30782c8150c5444 444B / 444B 0.2s done
+#5 sha256:02f40d53b06f6b91fec0cd6a6719656da99270bff8ee54ed8dcdf4c157763fc1 0B / 1.26MB 0.3s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 0B / 56.52MB 0.2s
+#5 sha256:e2de96513ba9eb53b431787ec8a65cdde380ac4772a3e4c4b714dcfde2a102b5 0B / 3.85MB 0.2s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 3.15MB / 56.52MB 0.8s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 6.29MB / 56.52MB 0.9s
+#5 sha256:e2de96513ba9eb53b431787ec8a65cdde380ac4772a3e4c4b714dcfde2a102b5 1.05MB / 3.85MB 0.9s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 11.53MB / 56.52MB 1.2s
+#5 sha256:e2de96513ba9eb53b431787ec8a65cdde380ac4772a3e4c4b714dcfde2a102b5 2.10MB / 3.85MB 1.2s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 14.68MB / 56.52MB 1.5s
+#5 sha256:e2de96513ba9eb53b431787ec8a65cdde380ac4772a3e4c4b714dcfde2a102b5 3.15MB / 3.85MB 1.5s
+#5 sha256:02f40d53b06f6b91fec0cd6a6719656da99270bff8ee54ed8dcdf4c157763fc1 1.05MB / 1.26MB 2.0s
+#5 sha256:e2de96513ba9eb53b431787ec8a65cdde380ac4772a3e4c4b714dcfde2a102b5 3.85MB / 3.85MB 1.8s done
+#5 extracting sha256:e2de96513ba9eb53b431787ec8a65cdde380ac4772a3e4c4b714dcfde2a102b5
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 18.87MB / 56.52MB 2.0s
+#5 extracting sha256:e2de96513ba9eb53b431787ec8a65cdde380ac4772a3e4c4b714dcfde2a102b5 0.2s done
+#5 sha256:02f40d53b06f6b91fec0cd6a6719656da99270bff8ee54ed8dcdf4c157763fc1 1.26MB / 1.26MB 2.1s done
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 22.02MB / 56.52MB 2.3s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 25.17MB / 56.52MB 2.4s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 28.31MB / 56.52MB 2.7s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 34.60MB / 56.52MB 2.9s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 37.75MB / 56.52MB 3.0s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 41.94MB / 56.52MB 3.2s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 45.09MB / 56.52MB 3.3s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 49.28MB / 56.52MB 3.6s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 54.53MB / 56.52MB 3.8s
+#5 sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 56.52MB / 56.52MB 3.9s done
+#5 extracting sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0
+#5 extracting sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 4.9s done
+#5 DONE 9.0s
+
+#5 [base 1/3] FROM docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#5 extracting sha256:02f40d53b06f6b91fec0cd6a6719656da99270bff8ee54ed8dcdf4c157763fc1 0.1s done
+#5 extracting sha256:7ce7dcbafb7f750cf0c6be3c30e34372b06dd1182fa67f6ae30782c8150c5444 0.0s done
+#5 DONE 9.1s
+
+#7 [base 2/3] WORKDIR /app
+#7 DONE 0.0s
+
+#8 [base 3/3] RUN npm install --global pnpm@10.11.0
+#8 1.741 
+#8 1.741 added 1 package in 1s
+#8 1.741 
+#8 1.742 1 package is looking for funding
+#8 1.742   run `npm fund` for details
+#8 1.748 npm notice
+#8 1.748 npm notice New major version of npm available! 11.19.0 -> 12.2.0
+#8 1.748 npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+#8 1.748 npm notice To update run: npm install -g npm@12.2.0
+#8 1.748 npm notice
+#8 DONE 1.9s
+
+#9 [dependencias 1/2] COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+#9 DONE 0.1s
+
+#10 [dependencias 2/2] RUN pnpm install --frozen-lockfile
+#10 2.225 Lockfile is up to date, resolution step is skipped
+#10 4.511 Progress: resolved 1, reused 0, downloaded 0, added 0
+#10 ...
+
+#11 [production-dependencias 2/2] RUN pnpm install --prod --frozen-lockfile
+#11 3.411 Lockfile is up to date, resolution step is skipped
+#11 3.817 Progress: resolved 1, reused 0, downloaded 0, added 0
+#11 4.709 Packages: +104
+#11 4.709 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#11 5.210 Progress: resolved 104, reused 0, downloaded 0, added 0
+#11 ...
+
+#10 [dependencias 2/2] RUN pnpm install --frozen-lockfile
+#10 10.11 Packages: +643
+#10 10.11 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#10 10.82 Progress: resolved 643, reused 0, downloaded 0, added 0
+#10 16.11 Progress: resolved 643, reused 0, downloaded 1, added 0
+#10 17.31 Progress: resolved 643, reused 0, downloaded 12, added 3
+#10 ...
+
+#11 [production-dependencias 2/2] RUN pnpm install --prod --frozen-lockfile
+#11 11.51 Progress: resolved 104, reused 0, downloaded 1, added 0
+#11 12.81 Progress: resolved 104, reused 0, downloaded 16, added 5
+#11 14.31 Progress: resolved 104, reused 0, downloaded 29, added 16
+#11 15.42 Progress: resolved 104, reused 0, downloaded 52, added 36
+#11 16.51 Progress: resolved 104, reused 0, downloaded 73, added 48
+#11 17.61 Progress: resolved 104, reused 0, downloaded 103, added 94
+#11 ...
+
+#10 [dependencias 2/2] RUN pnpm install --frozen-lockfile
+#10 18.42 Progress: resolved 643, reused 0, downloaded 25, added 14
+#10 19.61 Progress: resolved 643, reused 0, downloaded 47, added 30
+#10 20.61 Progress: resolved 643, reused 0, downloaded 73, added 47
+#10 21.81 Progress: resolved 643, reused 0, downloaded 111, added 87
+#10 22.82 Progress: resolved 643, reused 0, downloaded 140, added 109
+#10 24.11 Progress: resolved 643, reused 0, downloaded 160, added 129
+#10 25.31 Progress: resolved 643, reused 0, downloaded 180, added 147
+#10 26.32 Progress: resolved 643, reused 0, downloaded 216, added 184
+#10 27.41 Progress: resolved 643, reused 0, downloaded 252, added 227
+#10 ...
+
+#11 [production-dependencias 2/2] RUN pnpm install --prod --frozen-lockfile
+#11 19.22 
+#11 19.22    ╭──────────────────────────────────────────╮
+#11 19.22    │                                          │
+#11 19.22    │   Update available! 10.11.0 → 12.10.1.   │
+#11 19.22    │   Changelog: https://pnpm.io/v/12.10.1   │
+#11 19.22    │     To update, run: pnpm add -g pnpm     │
+#11 19.22    │                                          │
+#11 19.22    ╰──────────────────────────────────────────╯
+#11 19.22 
+#11 19.22 Progress: resolved 104, reused 0, downloaded 103, added 103
+#11 22.61 Progress: resolved 104, reused 0, downloaded 104, added 103
+#11 24.71 Progress: resolved 104, reused 0, downloaded 104, added 104
+#11 24.72 Progress: resolved 104, reused 0, downloaded 104, added 104, done
+#11 25.92 
+#11 25.92 dependencies:
+#11 25.92 + @nestjs/common 11.1.24
+#11 25.92 + @nestjs/core 11.1.24
+#11 25.92 + @nestjs/platform-express 11.1.24
+#11 25.92 + reflect-metadata 0.2.2
+#11 25.92 + rxjs 7.8.2
+#11 25.92 
+#11 25.92 devDependencies: skipped
+#11 25.92 
+#11 25.92 ╭ Warning ─────────────────────────────────────────────────────────────────────╮
+#11 25.92 │                                                                              │
+#11 25.92 │   Ignored build scripts: @nestjs/core.                                       │
+#11 25.92 │   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+#11 25.92 │   to run scripts.                                                            │
+#11 25.92 │                                                                              │
+#11 25.92 ╰──────────────────────────────────────────────────────────────────────────────╯
+#11 25.92 
+#11 26.52 Done in 26.3s using pnpm v10.11.0
+#11 DONE 27.7s
+
+#10 [dependencias 2/2] RUN pnpm install --frozen-lockfile
+#10 28.41 Progress: resolved 643, reused 0, downloaded 269, added 240
+#10 29.81 
+#10 29.81    ╭──────────────────────────────────────────╮
+#10 29.81    │                                          │
+#10 29.81    │   Update available! 10.11.0 → 12.10.1.   │
+#10 29.81    │   Changelog: https://pnpm.io/v/12.10.1   │
+#10 29.81    │     To update, run: pnpm add -g pnpm     │
+#10 29.81    │                                          │
+#10 29.81    ╰──────────────────────────────────────────╯
+#10 29.81 
+#10 30.01 Progress: resolved 643, reused 0, downloaded 284, added 248
+#10 31.11 Progress: resolved 643, reused 0, downloaded 306, added 273
+#10 32.31 Progress: resolved 643, reused 0, downloaded 332, added 288
+#10 33.32 Progress: resolved 643, reused 0, downloaded 356, added 312
+#10 34.41 Progress: resolved 643, reused 0, downloaded 388, added 340
+#10 35.52 Progress: resolved 643, reused 0, downloaded 410, added 355
+#10 36.62 Progress: resolved 643, reused 0, downloaded 451, added 396
+#10 ...
+
+#12 [runtime 3/5] COPY --from=production-dependencias /app/node_modules ./node_modules
+#12 DONE 4.9s
+
+#10 [dependencias 2/2] RUN pnpm install --frozen-lockfile
+#10 37.62 Progress: resolved 643, reused 0, downloaded 497, added 495
+#10 38.71 Progress: resolved 643, reused 0, downloaded 572, added 565
+#10 39.81 Progress: resolved 643, reused 0, downloaded 597, added 593
+#10 40.81 Progress: resolved 643, reused 0, downloaded 638, added 638
+#10 41.13 Progress: resolved 643, reused 0, downloaded 643, added 643, done
+#10 42.14 
+#10 42.14 dependencies:
+#10 42.14 + @nestjs/common 11.1.24
+#10 42.14 + @nestjs/core 11.1.24
+#10 42.14 + @nestjs/platform-express 11.1.24
+#10 42.14 + reflect-metadata 0.2.2
+#10 42.14 + rxjs 7.8.2
+#10 42.14 
+#10 42.14 devDependencies:
+#10 42.14 + @eslint/eslintrc 3.3.5
+#10 42.14 + @eslint/js 9.39.4
+#10 42.14 + @nestjs/cli 11.0.21
+#10 42.14 + @nestjs/schematics 11.1.0
+#10 42.14 + @nestjs/testing 11.1.24
+#10 42.14 + @types/express 5.0.6
+#10 42.14 + @types/jest 30.0.0
+#10 42.14 + @types/node 24.12.4
+#10 42.14 + @types/supertest 7.2.0
+#10 42.14 + eslint 9.39.4
+#10 42.14 + eslint-config-prettier 10.1.8
+#10 42.14 + eslint-plugin-prettier 5.5.6
+#10 42.14 + globals 17.6.0
+#10 42.14 + jest 30.4.2
+#10 42.14 + prettier 3.8.3
+#10 42.14 + source-map-support 0.5.21
+#10 42.14 + supertest 7.2.2
+#10 42.14 + ts-jest 29.4.11
+#10 42.14 + ts-loader 9.6.0
+#10 42.14 + ts-node 10.9.2
+#10 42.14 + tsconfig-paths 4.2.0
+#10 42.14 + typescript 5.9.3
+#10 42.14 + typescript-eslint 8.60.0
+#10 42.14 
+#10 42.14 ╭ Warning ─────────────────────────────────────────────────────────────────────╮
+#10 42.14 │                                                                              │
+#10 42.14 │   Ignored build scripts: @nestjs/core, unrs-resolver.                        │
+#10 42.14 │   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+#10 42.14 │   to run scripts.                                                            │
+#10 42.14 │                                                                              │
+#10 42.14 ╰──────────────────────────────────────────────────────────────────────────────╯
+#10 42.14 
+#10 42.21 Done in 42s using pnpm v10.11.0
+#10 DONE 42.6s
+
+#13 [build 1/3] COPY nest-cli.json tsconfig*.json ./
+#13 DONE 0.5s
+
+#14 [build 2/3] COPY src ./src
+#14 DONE 0.0s
+
+#15 [build 3/3] RUN pnpm build
+#15 0.544 
+#15 0.544 > lab3@0.0.1 build /app
+#15 0.544 > nest build
+#15 0.544 
+#15 DONE 6.1s
+
+#16 [runtime 4/5] COPY --from=build /app/dist ./dist
+#16 DONE 0.1s
+
+#17 [runtime 5/5] COPY package.json ./
+#17 DONE 0.1s
+
+#18 exporting to image
+#18 exporting layers
+#18 exporting layers 0.7s done
+#18 exporting manifest sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2 0.0s done
+#18 exporting config sha256:6ce5ccb30ec84de36ddf2a6da46575c7b3aee8ce07fc25dd3f6887b0b33d92a2 0.0s done
+#18 DONE 0.7s
+
+#19 exporting cache to client directory
+#19 preparing build cache for export
+#19 preparing build cache for export 8.4s done
+#19 sending cache export
+#19 writing layer sha256:09345c14bf880ff2540a2410c8e8b6669ba6d489abd0113bf6dc0bd6a171818f 0.1s done
+#19 writing layer sha256:02f40d53b06f6b91fec0cd6a6719656da99270bff8ee54ed8dcdf4c157763fc1 0.2s done
+#19 writing layer sha256:00c494f594804b11677e992b4ac563b867cd6efc785cbfc6c3e8d2ac1bd3e51f
+#19 writing layer sha256:04531e7f2254661e2795912a4f2f7c2dfe4ab50ce1acabda178d5c53f0b2fb4b 0.0s done
+#19 writing layer sha256:26068c0c0abf74e8d5405c0fac93cf67618dc640f5aabec561e99d2e2e9abd26
+#19 writing layer sha256:366ab218362c5930c864fffff79f6d49f5d476f2a07d4d1b31f0574521c9dd6e
+#19 writing layer sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0
+#19 writing layer sha256:366ab218362c5930c864fffff79f6d49f5d476f2a07d4d1b31f0574521c9dd6e 0.6s done
+#19 writing layer sha256:4cb361cd9682c8d5d08c1721e67a4bf41d4f65ea4736a006f6aeb6cc556e1e7c
+#19 writing layer sha256:4cb361cd9682c8d5d08c1721e67a4bf41d4f65ea4736a006f6aeb6cc556e1e7c 0.2s done
+#19 writing layer sha256:7ce7dcbafb7f750cf0c6be3c30e34372b06dd1182fa67f6ae30782c8150c5444
+#19 writing layer sha256:7ce7dcbafb7f750cf0c6be3c30e34372b06dd1182fa67f6ae30782c8150c5444 0.2s done
+#19 writing layer sha256:7f20de5bb6991ff536be9ba8cddf5c7e192e69ab2de3012724435b54cb866155
+#19 writing layer sha256:00c494f594804b11677e992b4ac563b867cd6efc785cbfc6c3e8d2ac1bd3e51f 1.4s done
+#19 writing layer sha256:91b9211ff68891ee6c0e8e4494b60a9f7b16612f2655b9ec24d1e379a081b45a
+#19 writing layer sha256:7f20de5bb6991ff536be9ba8cddf5c7e192e69ab2de3012724435b54cb866155 0.5s done
+#19 writing layer sha256:b8ed800d8daf068136c02c720fbfd2e0bae70adf92f73022eae24c75623d38c4
+#19 writing layer sha256:91b9211ff68891ee6c0e8e4494b60a9f7b16612f2655b9ec24d1e379a081b45a 0.2s done
+#19 writing layer sha256:b8ed800d8daf068136c02c720fbfd2e0bae70adf92f73022eae24c75623d38c4 0.1s done
+#19 writing layer sha256:e0493ed6513669ecb1b7ed388e02ebf97c3b4bb9abaf58cd5f70966bd0ee934f
+#19 writing layer sha256:e2de96513ba9eb53b431787ec8a65cdde380ac4772a3e4c4b714dcfde2a102b5
+#19 writing layer sha256:e0493ed6513669ecb1b7ed388e02ebf97c3b4bb9abaf58cd5f70966bd0ee934f 0.1s done
+#19 writing layer sha256:ec2de74b888443955faa983b02935d6310c39853a0fb95185c80596e7bcd2007
+#19 writing layer sha256:ec2de74b888443955faa983b02935d6310c39853a0fb95185c80596e7bcd2007 0.2s done
+#19 writing layer sha256:e2de96513ba9eb53b431787ec8a65cdde380ac4772a3e4c4b714dcfde2a102b5 0.4s done
+#19 writing layer sha256:26068c0c0abf74e8d5405c0fac93cf67618dc640f5aabec561e99d2e2e9abd26 2.7s done
+#19 writing layer sha256:3c504d5a797be28f9de43147d49cd8ecb2eea46dfaf7beb8715db695d5f0a7f0 3.2s done
+#19 sending cache export 3.4s done
+#19 writing config sha256:d440915445484bb2a6d0877222892f6d6638bb1eaefe91860fd9fd34f142a325 done
+#19 writing cache image manifest sha256:b32d5e4ab8371da420c8d265c73049bcd88fd752ef5fecf2da62d5efd32c8228 done
+#19 DONE 11.8s
+[Pipeline] }
+[Pipeline] // container
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (push)
+[Pipeline] container
+[Pipeline] {
+[Pipeline] sh
++ export 'DOCKER_CONFIG=/docker-config/dockerhub'
++ test -s /docker-config/dockerhub/config.json
++ buildctl-daemonless.sh build --frontend dockerfile.v0 --local 'context=.' --local 'dockerfile=.' --import-cache 'type=local,src=/tmp/buildkit-cache' --output 'type=image,"name=jjabarca/repo-lab3:juan-abarca,jjabarca/repo-lab3:3.0.0",push=true'
+time="2026-10-08T00:46:32Z" level=warning msg="failed check for fsverity support" error="enable fsverity failed: inappropriate ioctl for device" path=/tmp/buildkit-cache
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 713B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24-alpine
+#2 ...
+
+#3 [auth] library/node:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24-alpine
+#2 DONE 0.9s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 94B done
+#4 DONE 0.0s
+
+#5 importing cache manifest from local:6323991440172223107
+#5 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+#5 DONE 0.0s
+
+#6 [base 1/3] FROM docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#6 resolve docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 0.1s done
+#6 DONE 0.1s
+
+#7 [internal] load build context
+#7 transferring context: 506B 0.0s done
+#7 DONE 0.1s
+
+#8 [base 2/3] WORKDIR /app
+#8 CACHED
+
+#9 [dependencias 2/2] RUN pnpm install --frozen-lockfile
+#9 CACHED
+
+#10 [build 1/3] COPY nest-cli.json tsconfig*.json ./
+#10 CACHED
+
+#11 [build 2/3] COPY src ./src
+#11 CACHED
+
+#12 [build 3/3] RUN pnpm build
+#12 CACHED
+
+#13 [runtime 3/5] COPY --from=production-dependencias /app/node_modules ./node_modules
+#13 CACHED
+
+#14 [runtime 4/5] COPY --from=build /app/dist ./dist
+#14 CACHED
+
+#15 [dependencias 1/2] COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+#15 CACHED
+
+#16 [base 3/3] RUN npm install --global pnpm@10.11.0
+#16 CACHED
+
+#17 [production-dependencias 2/2] RUN pnpm install --prod --frozen-lockfile
+#17 CACHED
+
+#18 [runtime 5/5] COPY package.json ./
+#18 CACHED
+
+#19 [auth] jjabarca/repo-lab3:pull,push token for registry-1.docker.io
+#19 DONE 0.0s
+
+#20 exporting to image
+#20 exporting layers done
+#20 exporting manifest sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2 done
+#20 exporting config sha256:6ce5ccb30ec84de36ddf2a6da46575c7b3aee8ce07fc25dd3f6887b0b33d92a2 done
+#20 pushing layers
+#20 pushing layers 2.9s done
+#20 pushing manifest for docker.io/jjabarca/repo-lab3:juan-abarca@sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2
+#20 pushing manifest for docker.io/jjabarca/repo-lab3:juan-abarca@sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2 1.8s done
+#20 pushing layers 0.4s done
+#20 pushing manifest for docker.io/jjabarca/repo-lab3:3.0.0@sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2
+#20 pushing manifest for docker.io/jjabarca/repo-lab3:3.0.0@sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2 1.8s done
+#20 DONE 7.0s
++ export 'DOCKER_CONFIG=/docker-config/github'
++ test -s /docker-config/github/config.json
++ buildctl-daemonless.sh build --frontend dockerfile.v0 --local 'context=.' --local 'dockerfile=.' --import-cache 'type=local,src=/tmp/buildkit-cache' --output 'type=image,"name=ghcr.io/jjabarca/repo-lab3:latest,ghcr.io/jjabarca/repo-lab3:5",push=true'
+time="2026-10-08T00:46:40Z" level=warning msg="failed check for fsverity support" error="enable fsverity failed: inappropriate ioctl for device" path=/tmp/buildkit-cache
+#1 [internal] load build definition from Dockerfile
+#1 DONE 0.0s
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 713B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24-alpine
+#2 DONE 0.9s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 94B done
+#3 DONE 0.0s
+
+#4 importing cache manifest from local:6323991440172223107
+#4 inferred cache manifest type: application/vnd.oci.image.manifest.v1+json done
+#4 DONE 0.0s
+
+#5 [base 1/3] FROM docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#5 resolve docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 506B 0.0s done
+#6 DONE 0.0s
+
+#7 [runtime 4/5] COPY --from=build /app/dist ./dist
+#7 CACHED
+
+#8 [production-dependencias 2/2] RUN pnpm install --prod --frozen-lockfile
+#8 CACHED
+
+#9 [build 2/3] COPY src ./src
+#9 CACHED
+
+#10 [dependencias 2/2] RUN pnpm install --frozen-lockfile
+#10 CACHED
+
+#11 [base 3/3] RUN npm install --global pnpm@10.11.0
+#11 CACHED
+
+#12 [build 1/3] COPY nest-cli.json tsconfig*.json ./
+#12 CACHED
+
+#13 [build 3/3] RUN pnpm build
+#13 CACHED
+
+#14 [dependencias 1/2] COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+#14 CACHED
+
+#15 [runtime 3/5] COPY --from=production-dependencias /app/node_modules ./node_modules
+#15 CACHED
+
+#16 [base 2/3] WORKDIR /app
+#16 CACHED
+
+#17 [runtime 5/5] COPY package.json ./
+#17 CACHED
+
+#18 exporting to image
+#18 exporting layers done
+#18 exporting manifest sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2 done
+#18 exporting config sha256:6ce5ccb30ec84de36ddf2a6da46575c7b3aee8ce07fc25dd3f6887b0b33d92a2
+#18 exporting config sha256:6ce5ccb30ec84de36ddf2a6da46575c7b3aee8ce07fc25dd3f6887b0b33d92a2 done
+#18 pushing layers
+#18 ...
+
+#19 [auth] jjabarca/repo-lab3:pull,push token for ghcr.io
+#19 DONE 0.0s
+
+#18 exporting to image
+#18 pushing layers 3.4s done
+#18 pushing manifest for ghcr.io/jjabarca/repo-lab3:latest@sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2
+#18 pushing manifest for ghcr.io/jjabarca/repo-lab3:latest@sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2 0.9s done
+#18 pushing layers 0.6s done
+#18 pushing manifest for ghcr.io/jjabarca/repo-lab3:5@sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2
+#18 pushing manifest for ghcr.io/jjabarca/repo-lab3:5@sha256:7d3ad860f1538438720b667db6d05ec8194c96c0b0d1100ccce09237df33fec2 0.6s done
+#18 DONE 5.6s
+[Pipeline] }
+[Pipeline] // container
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (deploy)
+[Pipeline] container
+[Pipeline] {
+[Pipeline] withKubeConfig
+[Pipeline] {
+[Pipeline] sh
++ kubectl -n ns-juan-abarca set image deployment/app-juan-abarca 'app-juan-abarca=jjabarca/repo-lab3:juan-abarca'
++ kubectl -n ns-juan-abarca rollout restart deployment/app-juan-abarca
+deployment.apps/app-juan-abarca restarted
++ kubectl -n ns-juan-abarca rollout status deployment/app-juan-abarca '--timeout=180s'
+Waiting for deployment "app-juan-abarca" rollout to finish: 0 out of 2 new replicas have been updated...
+Waiting for deployment "app-juan-abarca" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "app-juan-abarca" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "app-juan-abarca" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "app-juan-abarca" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "app-juan-abarca" rollout to finish: 1 old replicas are pending termination...
+deployment "app-juan-abarca" successfully rolled out
+[Pipeline] }
+[kubernetes-cli] kubectl configuration cleaned up
+[Pipeline] // withKubeConfig
+[Pipeline] }
+[Pipeline] // container
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // container
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // podTemplate
+[Pipeline] End of Pipeline
+Finished: SUCCESS
